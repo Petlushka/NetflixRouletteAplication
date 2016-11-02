@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="4dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/bg_item"
+    android:padding="16dp">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/ivItemMovie"
+        android:scaleType="center"
+        android:layout_marginRight="4dp"/>
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/tvItemRating"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        android:layout_marginRight="2dp"
+        style="@style/AppTheme.WhiteText"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/tvItemRelease"
+        android:layout_margin="4dp"
+        android:layout_alignEnd="@id/ivItemMovie"
+        style="@style/AppTheme.WhiteText"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemCategory"
+        android:layout_below="@id/ivItemMovie"
+        android:gravity="center"
+        android:layout_marginTop="4dp"
+        style="@style/AppTheme.BlackText"
+        android:layout_marginBottom="4dp"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemDirector"
+        android:gravity="center"
+        android:layout_below="@id/tvItemCategory"
+        style="@style/AppTheme.BlackText"
+        android:layout_marginBottom="4dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItemTitle"
+        android:gravity="center"
+        android:layout_below="@id/tvItemDirector"
+        style="@style/AppTheme.BlackText"
+        android:layout_marginBottom="4dp"
+        />
+
+
+
+</RelativeLayout>

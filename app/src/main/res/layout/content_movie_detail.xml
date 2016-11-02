@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:id="@+id/content_movie_detail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.geekteam.netflixrouletteaplication.movieDeatils.MovieDetailActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:scaleType="fitCenter"
+        android:id="@+id/ivPosterDetailMovie"
+        />
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:layout_below="@id/ivPosterDetailMovie"
+        style="@style/AppTheme.BlackText"
+        android:id="@+id/tvReleaseDetailMovie"
+        android:paddingBottom="6dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        style="@style/AppTheme.BlackText"
+        android:layout_below="@id/tvReleaseDetailMovie"
+        android:id="@+id/tvRatingDetailMovie"
+        android:paddingBottom="6dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        style="@style/AppTheme.BlackText"
+        android:gravity="center"
+        android:layout_below="@id/tvRatingDetailMovie"
+        android:id="@+id/tvDirectorDetailMovie"
+        android:paddingBottom="6dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSummaryDetailMovie"
+        style="@style/AppTheme.BlackText"
+        android:layout_below="@id/tvDirectorDetailMovie"/>
+
+
+</RelativeLayout>
+</ScrollView>
