@@ -3,6 +3,7 @@ package com.example.geekteam.netflixrouletteaplication.searchMovie;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.geekteam.netflixrouletteaplication.MoviesAdapter;
 import com.example.geekteam.netflixrouletteaplication.R;
@@ -37,6 +37,7 @@ public class SearchMovieFragment extends Fragment implements SearchMovieContract
     ProgressBar progressBar;
     SearchMoviePresenter presenter;
     MoviesAdapter mMoviesAdapter;
+    String query = null;
 
 
 
@@ -44,6 +45,11 @@ public class SearchMovieFragment extends Fragment implements SearchMovieContract
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,9 +57,12 @@ public class SearchMovieFragment extends Fragment implements SearchMovieContract
         View view = inflater.inflate(R.layout.content_search_movie, container, false);
         ButterKnife.bind(this, view);
 
-        Log.d("MyLogs", "onCreateView search fragment + " + mSearchField.isEnabled());
-        presenter = new SearchMoviePresenter(getActivity(), type, this);
 
+        presenter = new SearchMoviePresenter(getActivity(), type, this);
+        if(query != null)
+            mSearchField.setText(query);
+
+        Log.d("myLogs", "onCreateView query - " + query + ", type - " + type);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mSearchResult.setNumColumns(2);
         }
@@ -102,4 +111,5 @@ public class SearchMovieFragment extends Fragment implements SearchMovieContract
     public void setType(int type) {
         this.type = type;
     }
+
 }

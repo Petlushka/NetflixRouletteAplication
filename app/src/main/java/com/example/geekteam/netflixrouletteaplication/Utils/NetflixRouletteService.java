@@ -2,6 +2,7 @@ package com.example.geekteam.netflixrouletteaplication.Utils;
 
 import com.example.geekteam.netflixrouletteaplication.data.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,5 +19,5 @@ public interface NetflixRouletteService {
     Call<Movie> getMovieByTitle(@Query("title") String title);
 
     @GET("api.php")
-    Call<List<Movie>> getMovieByDirector(@Query("director") String director);
+    Call<ArrayList<Movie>> getMovieByDirector(@Query("director") String director);
 }

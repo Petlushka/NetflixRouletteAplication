@@ -24,7 +24,7 @@ public class SearchMoviePresenter implements SearchMovieContract.SearchPresenter
     private final static int SEARCH_BY_TITLE = 1;
     private final static int SEARCH_BY_DIRECTOR = 2;
 
-    private List<Movie> data = new ArrayList<>();
+    ArrayList<Movie> data = new ArrayList<>();
     private Context context;
     private NetflixRouletteService service;
     private int type;
@@ -42,10 +42,10 @@ public class SearchMoviePresenter implements SearchMovieContract.SearchPresenter
     //    searchView.showProgressbar(true);
         switch (type){
             case SEARCH_BY_DIRECTOR:
-                Call<List<Movie>> call = service.getMovieByDirector(query);
-                call.enqueue(new Callback<List<Movie>>() {
+                Call<ArrayList<Movie>> call = service.getMovieByDirector(query);
+                call.enqueue(new Callback<ArrayList<Movie>>() {
                     @Override
-                    public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+                    public void onResponse(Call<ArrayList<Movie>> call, Response<ArrayList<Movie>> response) {
                         data = response.body();
                         //      searchView.showProgressbar(false);
                         if(data != null) {
@@ -57,7 +57,7 @@ public class SearchMoviePresenter implements SearchMovieContract.SearchPresenter
                     }
 
                     @Override
-                    public void onFailure(Call<List<Movie>> call, Throwable t) {
+                    public void onFailure(Call<ArrayList<Movie>> call, Throwable t) {
 
                     }
                 });

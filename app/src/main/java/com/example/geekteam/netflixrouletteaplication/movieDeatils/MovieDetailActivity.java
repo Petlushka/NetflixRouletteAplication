@@ -2,16 +2,12 @@ package com.example.geekteam.netflixrouletteaplication.movieDeatils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.geekteam.netflixrouletteaplication.R;
 import com.example.geekteam.netflixrouletteaplication.data.Movie;
@@ -24,15 +20,18 @@ import io.realm.Realm;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
-    MoviePresenter presenter;
+    private MoviePresenter mPresenter;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
     @BindView(R.id.toolbar_detail)
     Toolbar toolbar;
-    MoviePagerAdapter adapter;
-    Realm realm;
-    Movie currentMovie;
-    boolean save = false;
+    private MoviePagerAdapter mAdapter;
+    private Realm mRealm;
+    private boolean mSave = false;
+    private int mPosition;
+    private ArrayList<Movie> mData;
+    private boolean mSavedMovie;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +39,27 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
         Realm.init(this);
-        realm = Realm.getDefaultInstance();
-
-        Intent intent = getIntent();
-        presenter = new MoviePresenter(intent);
-        adapter = new MoviePagerAdapter(getSupportFragmentManager(), presenter.getAllMovies());
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(presenter.currentMoviePosition());
-        currentMovie = presenter.getCurrentMovie(viewPager.getCurrentItem());
-        presenter.setTitle(toolbar);
-        save = presenter.isSave();
+        mRealm = Realm.getDefaultInstance();
+        if(savedInstanceState == null) {
+            Intent intent = getIntent();
+            mData = (ArrayList<Movie>) intent.getSerializableExtra("mData");
+            mPosition =  intent.getIntExtra("mPosition", -1);
+            mSavedMovie = intent.getBooleanExtra("mSave", false);
+        } else {
+            mSavedMovie = savedInstanceState.getBoolean("mSave");
+            mPosition = savedInstanceState.getInt("mPosition");
+            mData = (ArrayList<Movie>)savedInstanceState.getSerializable("mData");
+        }
+        mPresenter = new MoviePresenter(mData, mPosition, mSavedMovie);
+        mAdapter = new MoviePagerAdapter(getSupportFragmentManager(), mPresenter.getAllMovies());
+        viewPager.setAdapter(mAdapter);
+        viewPager.setCurrentItem(mPosition);
+        mPresenter.setTitle(toolbar);
+        mSave = mPresenter.isSave();
         invalidateOptionsMenu();
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -61,10 +68,10 @@ public class MovieDetailActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                presenter.setPosition(viewPager.getCurrentItem());
-                presenter.setTitle(toolbar);
-                save = presenter.isSave();
-                Log.d("MyLogs", "" + save);
+                mPresenter.setPosition(viewPager.getCurrentItem());
+                mPresenter.setTitle(toolbar);
+                mSave = mPresenter.isSave();
+                Log.d("MyLogs", "" + mSave);
                 invalidateOptionsMenu();
             }
 
@@ -85,10 +92,12 @@ public class MovieDetailActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.action_save:
-                realm.beginTransaction();
-                Movie movie = presenter.getCurrentMovie(viewPager.getCurrentItem());
-                realm.copyToRealmOrUpdate(movie);
-                realm.commitTransaction();
+                mRealm.beginTransaction();
+                Movie movie = mPresenter.getCurrentMovie(viewPager.getCurrentItem());
+                mRealm.copyToRealmOrUpdate(movie);
+                mRealm.commitTransaction();
+                mSave = mPresenter.isSave();
+                invalidateOptionsMenu();
                 break;
         }
         return true;
@@ -103,10 +112,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem menuItem = menu.findItem(R.id.action_save);
-        if(save){
-            menuItem.setVisible(false);
+        if(mSave){
+            menuItem.setTitle("SAVED");
         } else {
-            menuItem.setVisible(true);
+            menuItem.setTitle("SAVE");
         }
         return true;
     }
@@ -114,6 +123,14 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
+        mRealm.close();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("mPosition", viewPager.getCurrentItem());
+        outState.putBoolean("mSave", mSavedMovie);
+        outState.putSerializable("mData", mData);
     }
 }

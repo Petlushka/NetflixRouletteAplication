@@ -17,16 +17,17 @@ class MoviePresenter implements MovieDetailContract.DetailPresenter {
 
     private List<Movie> data = new ArrayList<>();
     private int position;
-    private boolean save;
     private Realm realm;
 
-    MoviePresenter(Intent intent){
-        data = (List<Movie>)intent.getSerializableExtra("data");
-        position = intent.getIntExtra("position", -1);
-        save = intent.getBooleanExtra("save", false);
+    MoviePresenter(List<Movie> data, int position, boolean save){
         realm = Realm.getDefaultInstance();
+        this.data = data;
+        this.position = position;
+        if(save)
+            this.data = realm.where(Movie.class).findAll();
+        else
+            this.data = data;
     }
-
 
     @Override
     public int currentMoviePosition() {
@@ -35,8 +36,6 @@ class MoviePresenter implements MovieDetailContract.DetailPresenter {
 
     @Override
     public List<Movie> getAllMovies() {
-        if(save)
-            data = realm.where(Movie.class).findAll();
         return data;
     }
 
@@ -49,14 +48,13 @@ class MoviePresenter implements MovieDetailContract.DetailPresenter {
         toolbar.setTitle(getCurrentMovie(position).getShowTitle());
     }
 
-    public boolean isSave(){
+    boolean isSave(){
         int id =  getCurrentMovie(position).getShowId();
-
         Movie tmp = realm.where(Movie.class).equalTo("showId",id).findFirst();
         return tmp != null;
     }
 
-    public void setPosition(int position){
+    void setPosition(int position){
         this.position = position;
     }
 }
