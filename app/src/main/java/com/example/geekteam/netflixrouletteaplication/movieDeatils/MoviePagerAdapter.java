@@ -26,7 +26,6 @@ class MoviePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         MovieFragment fragment = new MovieFragment();
         fragment.setCurrentMovie(data.get(position));
-
         return fragment;
     }
 

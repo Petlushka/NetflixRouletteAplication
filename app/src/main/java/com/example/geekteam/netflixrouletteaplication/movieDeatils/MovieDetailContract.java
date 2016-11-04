@@ -1,11 +1,13 @@
 package com.example.geekteam.netflixrouletteaplication.movieDeatils;
 
 
+import android.support.v7.widget.Toolbar;
+
 import com.example.geekteam.netflixrouletteaplication.data.Movie;
 
 import java.util.List;
 
-public interface MovieDetailContract {
+interface MovieDetailContract {
 
     interface DetailVew {
 
@@ -15,11 +17,11 @@ public interface MovieDetailContract {
 
     interface DetailPresenter {
 
-        int currentMoviePosition();
-
         List<Movie> getAllMovies();
 
         Movie getCurrentMovie(int position);
+
+        void setTitle(Toolbar toolbar);
 
     }
 }

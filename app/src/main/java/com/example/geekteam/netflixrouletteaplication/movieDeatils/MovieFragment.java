@@ -17,9 +17,6 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MovieFragment extends Fragment implements MovieDetailContract.DetailVew {
 
     Movie currentMovie;
@@ -52,7 +49,6 @@ public class MovieFragment extends Fragment implements MovieDetailContract.Detai
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_movie_detail, container, false);
         ButterKnife.bind(this, view);
         showMovieDetail();
@@ -70,4 +66,5 @@ public class MovieFragment extends Fragment implements MovieDetailContract.Detai
         mSummary.setText(currentMovie.getSummary());
 
     }
+
 }

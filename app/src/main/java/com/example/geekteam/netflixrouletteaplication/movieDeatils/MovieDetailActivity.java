@@ -25,10 +25,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     ViewPager viewPager;
     @BindView(R.id.toolbar_detail)
     Toolbar toolbar;
-    private MoviePagerAdapter mAdapter;
     private Realm mRealm;
     private boolean mSave = false;
-    private int mPosition;
     private ArrayList<Movie> mData;
     private boolean mSavedMovie;
 
@@ -40,18 +38,19 @@ public class MovieDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Realm.init(this);
         mRealm = Realm.getDefaultInstance();
+        int mPosition;
         if(savedInstanceState == null) {
             Intent intent = getIntent();
-            mData = (ArrayList<Movie>) intent.getSerializableExtra("mData");
-            mPosition =  intent.getIntExtra("mPosition", -1);
-            mSavedMovie = intent.getBooleanExtra("mSave", false);
+            mData = (ArrayList<Movie>) intent.getSerializableExtra("data");
+            mPosition =  intent.getIntExtra("position", -1);
+            mSavedMovie = intent.getBooleanExtra("save", false);
         } else {
-            mSavedMovie = savedInstanceState.getBoolean("mSave");
-            mPosition = savedInstanceState.getInt("mPosition");
-            mData = (ArrayList<Movie>)savedInstanceState.getSerializable("mData");
+            mSavedMovie = savedInstanceState.getBoolean("save");
+            mPosition = savedInstanceState.getInt("position");
+            mData = (ArrayList<Movie>)savedInstanceState.getSerializable("data");
         }
         mPresenter = new MoviePresenter(mData, mPosition, mSavedMovie);
-        mAdapter = new MoviePagerAdapter(getSupportFragmentManager(), mPresenter.getAllMovies());
+        MoviePagerAdapter mAdapter = new MoviePagerAdapter(getSupportFragmentManager(), mPresenter.getAllMovies());
         viewPager.setAdapter(mAdapter);
         viewPager.setCurrentItem(mPosition);
         mPresenter.setTitle(toolbar);
@@ -129,8 +128,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("mPosition", viewPager.getCurrentItem());
-        outState.putBoolean("mSave", mSavedMovie);
-        outState.putSerializable("mData", mData);
+        outState.putInt("position", viewPager.getCurrentItem());
+        outState.putBoolean("save", mSavedMovie);
+        outState.putSerializable("data", mData);
     }
 }

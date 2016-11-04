@@ -8,17 +8,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.geekteam.netflixrouletteaplication.R;
 import com.example.geekteam.netflixrouletteaplication.data.Movie;
-import com.example.geekteam.netflixrouletteaplication.savedMovie.SavedMoviesPresenter;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.RealmList;
 
 public class MoviesAdapter extends BaseAdapter {
 
@@ -79,18 +76,8 @@ public class MoviesAdapter extends BaseAdapter {
         return currentView;
     }
 
-   /* public void filter(String charText){
-        charText = charText.toLowerCase(Locale.getDefault());
-        users = new RealmList<>();
-        if (charText.length() == 0) {
-            users.addAll(mCleanCopyDataset);
-        } else {
-            for (User item : mCleanCopyDataset) {
-                if ((item.getFirstName() + " " + item.getLastName()).toLowerCase(Locale.getDefault()).contains(charText)) {
-                    users.add(item);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }*/
+    public void setData(List<Movie> data){
+        this.data = data;
+    }
+
 }

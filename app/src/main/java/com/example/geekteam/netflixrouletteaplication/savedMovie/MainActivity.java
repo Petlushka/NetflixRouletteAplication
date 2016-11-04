@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-    private ActionBarDrawerToggle toggle;
     FragmentManager fm;
     Realm realm;
     int currentType;
@@ -55,8 +54,8 @@ public class MainActivity extends AppCompatActivity
         }
         chooseTitleToolbar(currentType);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         toolbar.setNavigationIcon(R.drawable.ic_videocam);

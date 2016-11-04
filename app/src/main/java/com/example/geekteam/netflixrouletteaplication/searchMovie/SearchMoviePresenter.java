@@ -8,7 +8,6 @@ import com.example.geekteam.netflixrouletteaplication.data.Movie;
 import com.example.geekteam.netflixrouletteaplication.movieDeatils.MovieDetailActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -19,12 +18,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class SearchMoviePresenter implements SearchMovieContract.SearchPresenter {
+class SearchMoviePresenter implements SearchMovieContract.SearchPresenter {
 
     private final static int SEARCH_BY_TITLE = 1;
     private final static int SEARCH_BY_DIRECTOR = 2;
 
-    ArrayList<Movie> data = new ArrayList<>();
+    private ArrayList<Movie> data = new ArrayList<>();
     private Context context;
     private NetflixRouletteService service;
     private int type;
@@ -39,7 +38,7 @@ public class SearchMoviePresenter implements SearchMovieContract.SearchPresenter
 
     @Override
     public void searchMovies(String query) {
-    //    searchView.showProgressbar(true);
+        data = new ArrayList<>();
         switch (type){
             case SEARCH_BY_DIRECTOR:
                 Call<ArrayList<Movie>> call = service.getMovieByDirector(query);
@@ -47,11 +46,10 @@ public class SearchMoviePresenter implements SearchMovieContract.SearchPresenter
                     @Override
                     public void onResponse(Call<ArrayList<Movie>> call, Response<ArrayList<Movie>> response) {
                         data = response.body();
-                        //      searchView.showProgressbar(false);
                         if(data != null) {
                             searchView.showSearchMovies(data);
                         } else {
-                            data = new ArrayList<Movie>();
+                            data = new ArrayList<>();
                             searchView.showSearchMovies(data);
                         }
                     }
@@ -70,8 +68,8 @@ public class SearchMoviePresenter implements SearchMovieContract.SearchPresenter
                         Movie tmp = response.body();
                         if(tmp != null) {
                             data.add(tmp);
-                            searchView.showSearchMovies(data);
                         }
+                        searchView.showSearchMovies(data);
                     }
 
                     @Override
@@ -87,12 +85,12 @@ public class SearchMoviePresenter implements SearchMovieContract.SearchPresenter
     @Override
     public void openMovieDetail(int position) {
         Intent intent = new Intent(context, MovieDetailActivity.class);
-        intent.putExtra("data", (ArrayList<Movie>)data);
+        intent.putExtra("data", data);
         intent.putExtra("position", position);
         context.startActivity(intent);
     }
 
-    public void getService(){
+    private void getService(){
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

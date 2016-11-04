@@ -1,9 +1,7 @@
 package com.example.geekteam.netflixrouletteaplication.movieDeatils;
 
-import android.content.Intent;
+
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 
 import com.example.geekteam.netflixrouletteaplication.data.Movie;
 
@@ -30,11 +28,6 @@ class MoviePresenter implements MovieDetailContract.DetailPresenter {
     }
 
     @Override
-    public int currentMoviePosition() {
-        return position;
-    }
-
-    @Override
     public List<Movie> getAllMovies() {
         return data;
     }
@@ -44,6 +37,7 @@ class MoviePresenter implements MovieDetailContract.DetailPresenter {
         return data.get(index);
     }
 
+    @Override
     public void setTitle(Toolbar toolbar){
         toolbar.setTitle(getCurrentMovie(position).getShowTitle());
     }

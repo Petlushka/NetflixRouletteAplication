@@ -20,6 +20,7 @@ import com.example.geekteam.netflixrouletteaplication.MoviesAdapter;
 import com.example.geekteam.netflixrouletteaplication.R;
 import com.example.geekteam.netflixrouletteaplication.data.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -100,13 +101,7 @@ public class SearchMovieFragment extends Fragment implements SearchMovieContract
 
     }
 
-    @Override
-    public void showProgressbar(boolean show) {
-        if(show)
-            progressBar.setVisibility(View.VISIBLE);
-        else
-            progressBar.setVisibility(View.INVISIBLE);
-    }
+
 
     public void setType(int type) {
         this.type = type;
