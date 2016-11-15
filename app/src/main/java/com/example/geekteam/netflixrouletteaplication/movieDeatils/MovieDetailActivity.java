@@ -2,6 +2,7 @@ package com.example.geekteam.netflixrouletteaplication.movieDeatils;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 
+import static android.net.http.SslCertificate.restoreState;
+
+
 public class MovieDetailActivity extends AppCompatActivity {
 
     private MoviePresenter mPresenter;
@@ -29,6 +33,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private boolean mSave = false;
     private ArrayList<Movie> mData;
     private boolean mSavedMovie;
+    private int mPosition;
 
 
     @Override
@@ -38,7 +43,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Realm.init(this);
         mRealm = Realm.getDefaultInstance();
-        int mPosition;
         if(savedInstanceState == null) {
             Intent intent = getIntent();
             mData = (ArrayList<Movie>) intent.getSerializableExtra("data");
@@ -59,11 +63,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
@@ -74,10 +74,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
         });
 
 
